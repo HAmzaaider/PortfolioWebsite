@@ -11,7 +11,7 @@ export const contactInfo = [
   {
     label: 'Email',
     value: 'kohat3067@email.com',
-    href:  'mailto:hamza@email.com',
+    href:  'mailto:kohat3067@email.com',
     icon:  'email',
   },
   {
