@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
+
 // Layout components (always visible)
 import Navbar from '@components/ui/Navbar'
 import CustomCursor from '@components/ui/CustomCursor'
@@ -13,6 +14,7 @@ import Projects from '@components/sections/Projects'
 import Experience from '@components/sections/Experience'
 import Contact from '@components/sections/Contact'
 import Footer from '@components/ui/Footer'
+import ScrollProgress from '@components/ui/ScrollProgress'
 
 function App() {
   return (
@@ -35,7 +37,8 @@ function MainPage() {
 
       {/* Custom animated cursor — sits on top of everything */}
       <CustomCursor />
-
+      
+      <ScrollProgress />
       {/* Sticky navigation bar */}
       <Navbar />
 
