@@ -46,13 +46,20 @@ const StatCard = ({
 }: StatCardProps) => (
   <motion.div
     variants={itemVariants}
-    className="relative p-5 rounded-xl border border-cream-50/10 bg-navy-900/40 hover:border-mustard-600/40 hover:bg-navy-900/60 transition-all duration-300 group"
+    whileHover={{
+      y: -8,
+      scale: 1.03,
+      boxShadow: '0 18px 45px rgba(6,15,30,0.45), 0 0 0 1px rgba(232,146,10,0.25)',
+    }}
+    transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+    className="relative overflow-hidden p-5 rounded-xl border border-cream-50/10 bg-navy-900/40 hover:border-mustard-600/45 hover:bg-navy-900/65 transition-all duration-300 group"
   >
+    <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-mustard-400/10 to-transparent group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
     <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-mustard-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
     {/* Rule 2 & 3: gradient isolated */}
     <p
-      className="text-3xl font-black mb-1"
+      className="text-3xl font-black mb-1 transition-transform duration-300 group-hover:scale-[1.05]"
       style={{
         fontFamily:
           'Playfair Display, serif',
@@ -63,7 +70,7 @@ const StatCard = ({
       </span>
     </p>
 
-    <p className="text-cream-50/50 text-xs font-mono font-medium tracking-wide">
+    <p className="text-cream-50/50 text-xs font-mono font-medium tracking-wide transition-colors duration-300 group-hover:text-cream-50/70">
       {label}
     </p>
   </motion.div>

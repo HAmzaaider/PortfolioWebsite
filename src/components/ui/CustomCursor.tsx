@@ -1,9 +1,18 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 // ─── Text tags that can receive the water effect ──────────────
 // Only triggers inside #projects section
 const TEXT_TAGS = ['H1','H2','H3','H4','H5','H6','P','SPAN','A','LI','LABEL','BUTTON']
+
+interface Sparkle {
+  id: number
+  x: number
+  y: number
+  size: number
+  driftX: number
+  driftY: number
+}
 
 const CustomCursor = () => {
   // ── Cursor position values ────────────────────────────────
@@ -30,6 +39,11 @@ const CustomCursor = () => {
 
   // Phase counter — increments each frame to animate the water
   const waterPhase = useRef<number>(0)
+  const [sparkles, setSparkles] = useState<Sparkle[]>([])
+  const sparkleId = useRef(0)
+  const lastPoint = useRef({ x: -200, y: -200 })
+  const insideProjectsRef = useRef(false)
+  const [insideAbout, setInsideAbout] = useState(false)
 
   // ── Water animation loop ──────────────────────────────────
   // Shifts turbulence baseFrequency smoothly using a sine wave
@@ -92,8 +106,45 @@ const CustomCursor = () => {
   useEffect(() => {
     // ── Mouse move: update raw position values ────────────
     const handleMouseMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const insideProjects = !!target?.closest('#projects')
+      const nowInsideAbout = !!target?.closest('#about')
+      insideProjectsRef.current = insideProjects
+      setInsideAbout(nowInsideAbout)
+
+      const dx = e.clientX - lastPoint.current.x
+      const dy = e.clientY - lastPoint.current.y
+      const distance = Math.hypot(dx, dy)
+      lastPoint.current = { x: e.clientX, y: e.clientY }
+
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
+
+      // Glitter tail appears only when moving inside #projects.
+      if (insideProjects && distance > 6) {
+        const burstCount = distance > 18 ? 3 : 2
+        const created: number[] = []
+
+        for (let i = 0; i < burstCount; i += 1) {
+          const id = sparkleId.current++
+          created.push(id)
+
+          const sparkle: Sparkle = {
+            id,
+            x: e.clientX - dx * (0.35 + i * 0.07) + (Math.random() - 0.5) * 16,
+            y: e.clientY - dy * (0.35 + i * 0.07) + (Math.random() - 0.5) * 16,
+            size: 4 + Math.random() * 6,
+            driftX: (Math.random() - 0.5) * 26,
+            driftY: -12 - Math.random() * 16,
+          }
+
+          setSparkles(prev => [...prev.slice(-34), sparkle])
+        }
+
+        window.setTimeout(() => {
+          setSparkles(prev => prev.filter(item => !created.includes(item.id)))
+        }, 560)
+      }
     }
 
     // ── Mouse over: decide which cursor state to apply ────
@@ -104,6 +155,8 @@ const CustomCursor = () => {
       // Check if we're inside the Projects section
       // Water effect is ONLY active inside #projects
       const insideProjects = !!target.closest('#projects')
+      const inAbout = !!target.closest('#about')
+      setInsideAbout(inAbout)
 
       // ── 1. Clickable element (link or button) ─────────────
       // Expand ring, hide dot — works everywhere
@@ -157,6 +210,21 @@ const CustomCursor = () => {
       // ── 3. Outside #projects — remove water, reset cursor ─
       if (!insideProjects) {
         removeWaterFromText()
+        setSparkles([])
+      }
+
+      if (inAbout) {
+        if (ringRef.current) {
+          ringRef.current.style.width = '44px'
+          ringRef.current.style.height = '44px'
+          ringRef.current.style.borderColor = 'rgba(245,185,85,0.85)'
+          ringRef.current.style.backgroundColor = 'rgba(245,185,85,0.06)'
+        }
+        if (dotRef.current) {
+          dotRef.current.style.backgroundColor = '#F5B955'
+          dotRef.current.style.transform = 'translate(-50%,-50%) scale(1.15)'
+        }
+        return
       }
 
       resetCursor()
@@ -188,6 +256,8 @@ const CustomCursor = () => {
       mouseX.set(-200)
       mouseY.set(-200)
       removeWaterFromText()
+      setSparkles([])
+      setInsideAbout(false)
       resetCursor()
     }
 
@@ -291,6 +361,51 @@ const CustomCursor = () => {
           ].join(', '),
         }}
       />
+
+      {insideAbout && (
+        <motion.div
+          className="fixed top-0 left-0 pointer-events-none rounded-full"
+          style={{
+            x: springX,
+            y: springY,
+            width: 70,
+            height: 70,
+            translateX: '-50%',
+            translateY: '-50%',
+            border: '1px solid rgba(245,185,85,0.35)',
+            zIndex: 9996,
+          }}
+          animate={{ scale: [1, 1.18, 1], opacity: [0.45, 0.15, 0.45] }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      )}
+
+      {sparkles.map((sparkle) => (
+        <motion.span
+          key={sparkle.id}
+          className="fixed top-0 left-0 pointer-events-none rounded-full"
+          style={{
+            x: sparkle.x,
+            y: sparkle.y,
+            width: sparkle.size,
+            height: sparkle.size,
+            translateX: '-50%',
+            translateY: '-50%',
+            zIndex: 9997,
+            background:
+              'radial-gradient(circle, rgba(255,240,180,1) 0%, rgba(245,185,85,0.9) 35%, rgba(217,119,6,0.35) 68%, rgba(217,119,6,0) 100%)',
+            boxShadow: '0 0 14px rgba(255,214,102,0.95), 0 0 24px rgba(245,185,85,0.65)',
+          }}
+          initial={{ opacity: 1, scale: 1 }}
+          animate={{
+            opacity: 0,
+            scale: 0.2,
+            x: sparkle.x + sparkle.driftX,
+            y: sparkle.y + sparkle.driftY,
+          }}
+          transition={{ duration: 0.56, ease: 'easeOut' }}
+        />
+      ))}
     </>
   )
 }

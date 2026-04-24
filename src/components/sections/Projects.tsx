@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import {
+  AnimatePresence,
   motion,
   useInView,
   useMotionValue,
@@ -46,11 +47,12 @@ const StatusBadge = ({ status }: { status: Project['status'] }) => {
 // ─── Draggable Top Card ───────────────────────────────────────
 interface DraggableCardProps {
   project:      Project
+  direction:    1 | -1
   onSwipeLeft:  () => void
   onSwipeRight: () => void
 }
 
-const DraggableCard = ({ project, onSwipeLeft, onSwipeRight }: DraggableCardProps) => {
+const DraggableCard = ({ project, direction, onSwipeLeft, onSwipeRight }: DraggableCardProps) => {
   // useMotionValue tracks drag position without triggering re-renders
   const x = useMotionValue(0)
 
@@ -78,22 +80,31 @@ const DraggableCard = ({ project, onSwipeLeft, onSwipeRight }: DraggableCardProp
 
   return (
     <motion.div
+      className="absolute inset-0"
+      initial={{
+        x: direction > 0 ? 140 : -140,
+        scale: 0.92,
+        opacity: 0,
+        y: 12,
+      }}
+      animate={{ x: 0, scale: 1, opacity: 1, y: 0 }}
+      exit={{
+        x: direction > 0 ? -220 : 220,
+        opacity: 0,
+        scale: 0.96,
+        y: -8,
+      }}
+      transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+    >
+    <motion.div
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.8}
       style={{ x, rotate, opacity }}
       onDragEnd={handleDragEnd}
-      initial={{ scale: 0.8, opacity: 0, y: 60 }}
-      animate={{ scale: 1,   opacity: 1, y: 0  }}
-      exit={{
-        x:       x.get() > 0 ? 400 : -400,
-        opacity: 0,
-        rotate:  x.get() > 0 ? 30 : -30,
-      }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       // ── navy-800 card on navy-900 section — subtle depth ─────
       className="
-        absolute inset-0
+        w-full h-full
         bg-navy-800 rounded-2xl
         border border-mustard-600/20
         p-7 flex flex-col
@@ -239,6 +250,7 @@ const DraggableCard = ({ project, onSwipeLeft, onSwipeRight }: DraggableCardProp
         drag to browse
       </p>
     </motion.div>
+    </motion.div>
   )
 }
 
@@ -273,19 +285,24 @@ const Projects = () => {
 
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('All')
   const [currentIndex,   setCurrentIndex]   = useState(0)
+  const [navDirection, setNavDirection] = useState<1 | -1>(1)
 
   const filteredProjects =
     activeCategory === 'All'
       ? projects
       : projects.filter(p => p.category === activeCategory)
 
-  const goNext = () =>
+  const goNext = () => {
+    setNavDirection(1)
     setCurrentIndex(prev => (prev + 1) % filteredProjects.length)
+  }
 
-  const goPrev = () =>
+  const goPrev = () => {
+    setNavDirection(-1)
     setCurrentIndex(prev =>
       prev === 0 ? filteredProjects.length - 1 : prev - 1
     )
+  }
 
   const handleCategoryChange = (cat: ProjectCategory) => {
     setActiveCategory(cat)
@@ -397,12 +414,15 @@ const Projects = () => {
             {/* Card 1 — top, draggable */}
             {/* key forces re-mount = fresh animation on every card change */}
             {filteredProjects.length > 0 && (
-              <DraggableCard
-                key={`${activeCategory}-${currentIndex}`}
-                project={visibleProjects[0]}
-                onSwipeLeft={goNext}
-                onSwipeRight={goPrev}
-              />
+              <AnimatePresence mode="wait">
+                <DraggableCard
+                  key={`${activeCategory}-${currentIndex}`}
+                  direction={navDirection}
+                  project={visibleProjects[0]}
+                  onSwipeLeft={goNext}
+                  onSwipeRight={goPrev}
+                />
+              </AnimatePresence>
             )}
           </motion.div>
 
