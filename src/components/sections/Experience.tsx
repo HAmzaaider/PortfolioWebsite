@@ -8,8 +8,9 @@ const containerVariants: Variants = {
   visible: { transition: { staggerChildren: 0.12 } },
 }
 
+// ★ Experience entrance: slides in from RIGHT — zigzag feel matching the timeline layout
 const itemVariants: Variants = {
-  hidden:  { opacity: 0, x: -30 },
+  hidden:  { opacity: 0, x: 30 },
   visible: {
     opacity: 1, x: 0,
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
@@ -23,7 +24,7 @@ interface SectionHeadingProps {
 
 const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
   <div className="mb-12 md:mb-16 text-center">
-    <p className="font-mono text-sm text-mustard-600 tracking-widest mb-3">{label}</p>
+    <p className="font-mono text-sm font-semibold text-mustard-600 tracking-widest mb-3">{label}</p>
     <h2
       className="text-4xl md:text-5xl font-black text-navy-800"
       style={{ fontFamily: 'Playfair Display, serif' }}
@@ -69,10 +70,10 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
           transition={{ duration: 0.2 }}
           className="
             p-5 md:p-6 rounded-xl
-            border border-navy-800/10
-            bg-cream-50
-            hover:border-mustard-600/30
-            hover:shadow-[0_8px_30px_rgba(217,119,6,0.08)]
+            border border-navy-800/12
+            bg-cream-100
+            hover:border-mustard-600/35
+            hover:shadow-[0_8px_30px_rgba(201,106,0,0.10)]
             transition-all duration-300
             cursor-pointer group
           "
@@ -84,7 +85,7 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
               ${isLeft ? 'lg:justify-end justify-start' : 'justify-start'}
             `}>
               <span className="w-1.5 h-1.5 rounded-full bg-mustard-600 animate-pulse" />
-              <span className="text-mustard-600 text-xs font-mono tracking-wide">
+              <span className="text-mustard-600 text-xs font-mono font-semibold tracking-wide">
                 Current Role
               </span>
             </div>
@@ -103,11 +104,11 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
             flex items-center gap-2 flex-wrap mb-3
             ${isLeft ? 'lg:justify-end justify-start' : 'justify-start'}
           `}>
-            <span className="text-mustard-600 font-semibold text-sm font-mono">
+            <span className="text-mustard-600 font-bold text-sm font-mono">
               {item.company}
             </span>
             <span className="text-navy-800/20 text-xs">•</span>
-            <span className="text-navy-800/40 text-xs font-mono">
+            <span className="text-navy-800/50 text-xs font-mono font-medium">
               {item.location}
             </span>
           </div>
@@ -118,13 +119,13 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
             ${isLeft ? 'lg:justify-end justify-start' : 'justify-start'}
           `}>
             <span className="
-              px-2.5 py-1 rounded-full text-xs font-mono
-              bg-mustard-600/8 text-mustard-600
-              border border-mustard-600/20
+              px-2.5 py-1 rounded-full text-xs font-mono font-semibold
+              bg-mustard-600/10 text-mustard-600
+              border border-mustard-600/25
             ">
               {item.period}
             </span>
-            <span className="text-navy-800/30 text-xs font-mono">
+            <span className="text-navy-800/40 text-xs font-mono">
               {item.duration}
             </span>
           </div>
@@ -139,7 +140,7 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
                 transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                 className="overflow-hidden"
               >
-                <div className="w-full h-px bg-mustard-600/10 mb-4" />
+                <div className="w-full h-px bg-mustard-600/15 mb-4" />
 
                 {/* Bullet points */}
                 <ul className={`
@@ -151,7 +152,8 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
                       key={i}
                       className={`
                         flex items-start gap-2
-                        text-navy-800/60 text-sm leading-relaxed
+                        /* ★ font-normal + stronger opacity */
+                        text-navy-800/70 text-sm leading-relaxed font-normal
                         ${isLeft ? 'lg:flex-row-reverse flex-row' : 'flex-row'}
                       `}
                     >
@@ -170,9 +172,9 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
                     <span
                       key={tech}
                       className="
-                        px-2 py-0.5 rounded text-xs font-mono
-                        bg-navy-800/5 text-navy-800/60
-                        border border-navy-800/10
+                        px-2 py-0.5 rounded text-xs font-mono font-medium
+                        bg-navy-800/6 text-navy-800/70
+                        border border-navy-800/12
                       "
                     >
                       {tech}
@@ -188,13 +190,13 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
             flex items-center gap-1 mt-3
             ${isLeft ? 'lg:justify-end justify-start' : 'justify-start'}
           `}>
-            <span className="text-navy-800/25 text-xs font-mono">
+            <span className="text-navy-800/35 text-xs font-mono">
               {expanded ? 'click to collapse' : 'click to expand'}
             </span>
             <motion.svg
               animate={{ rotate: expanded ? 180 : 0 }}
               transition={{ duration: 0.3 }}
-              className="w-3 h-3 text-navy-800/25"
+              className="w-3 h-3 text-navy-800/35"
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -214,7 +216,7 @@ const TimelineItem = ({ item, index, isLast }: TimelineItemProps) => {
             relative z-10
             w-4 h-4 rounded-full
             bg-mustard-600 border-2 border-cream-50
-            shadow-[0_0_12px_rgba(217,119,6,0.5)]
+            shadow-[0_0_12px_rgba(201,106,0,0.5)]
           "
         />
         {!isLast && (
@@ -246,7 +248,8 @@ const Experience = () => {
     <section
       id="experience"
       ref={sectionRef}
-      className="relative min-h-screen bg-cream-100 py-24 md:py-32 overflow-hidden"
+      // ★ Experience = cream-50 (step 5 of alternating pattern)
+      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-x-hidden"
     >
       <div className="
         absolute bottom-0 right-0
@@ -273,7 +276,7 @@ const Experience = () => {
         >
           <div className="
             flex gap-1 p-1 rounded-xl
-            bg-cream-50 border border-navy-800/10
+            bg-cream-100 border border-navy-800/12
             shadow-sm
           ">
             {(['work', 'education'] as const).map((tab) => (
@@ -281,7 +284,7 @@ const Experience = () => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`
-                  relative px-8 py-2.5 rounded-lg text-sm font-mono
+                  relative px-8 py-2.5 rounded-lg text-sm font-mono font-semibold
                   transition-all duration-300 capitalize
                   ${activeTab === tab ? 'text-white' : 'text-navy-800/50 hover:text-navy-800'}
                 `}
@@ -346,6 +349,14 @@ const Experience = () => {
             ))}
           </motion.div>
         </AnimatePresence>
+      </div>
+
+      {/* ★ Section divider — sharp diagonal drop into Contact (deep navy = #0D2545) */}
+      {/* This is the most dramatic divider — light to dark */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none pointer-events-none">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-16 block">
+          <path d="M0,60 L1440,0 L1440,60 Z" fill="#0D2545" />
+        </svg>
       </div>
     </section>
   )
