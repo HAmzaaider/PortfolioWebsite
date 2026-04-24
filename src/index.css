@@ -8,16 +8,13 @@
 :root {
   --bg-primary:      #FFF4DC;
   --bg-secondary:    #FEE8A0;
-  --bg-tertiary:     #FDDEA0;
+  --bg-dark:         #0D2545;
   --accent-mustard:  #C96A00;
   --accent-amber:    #E8920A;
   --accent-pale:     #F5B955;
-  --accent-blue:     #1A3A6B;
-  --accent-blue-lt:  #4A7FC1;
   --text-primary:    #0D2545;
-  --text-secondary:  #7A3F00;
-  --text-muted:      #5C6E8A;
-  --border-color:    rgba(201, 106, 0, 0.18);
+  --text-on-dark:    #FFF4DC;
+  --border-color:    rgba(201, 106, 0, 0.2);
 }
 
 * {
@@ -33,11 +30,10 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
-  /* ★ Bumped from no declaration (defaults thin) to 400 for readability */
   font-weight: 400;
-  /* ★ Slightly larger base size so body copy breathes better */
-  font-size: 16px;
-  line-height: 1.7;
+  /* ── Bumped to 18px base — noticeably more readable ── */
+  font-size: 18px;
+  line-height: 1.75;
   overflow-x: hidden;
 }
 
@@ -47,13 +43,9 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--accent-mustard); border-radius: 10px; }
 
 /* ─── Selection ───────────────────────────────────────────── */
-::selection {
-  background: var(--accent-mustard);
-  color: #fff;
-}
+::selection { background: var(--accent-mustard); color: #fff; }
 
 /* ─── Water cursor text effect ───────────────────────────── */
-/* Applied via JS when cursor hovers a text element */
 .water-text-active {
   filter: url(#water-ripple);
   position: relative;
@@ -61,42 +53,107 @@ body {
   display: inline-block;
 }
 
-/* ─── Utility classes ─────────────────────────────────────── */
 @layer utilities {
-  /* Mustard gradient text */
+  /* ─── Gradient text — always isolated in its own span ──── */
   .text-gradient {
     background: linear-gradient(135deg, #C96A00, #E8920A);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-block; /* Rule 3 — always inline-block */
   }
 
-  /* Blue gradient text */
-  .text-gradient-blue {
-    background: linear-gradient(135deg, #1B3A6B, #2563EB);
+  .text-gradient-light {
+    background: linear-gradient(135deg, #F5B955, #FFF4DC);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-block;
   }
 
-  .border-glow {
-    border: 1px solid rgba(201, 106, 0, 0.3);
-    box-shadow: 0 0 20px rgba(201, 106, 0, 0.08);
+  /* ─── Glassmorphism ───────────────────────────────────── */
+  .bg-glass-light {
+    background: rgba(255, 244, 220, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
-
-  /* Glassmorphism for light bg */
-  .bg-glass {
-    background: rgba(255, 244, 220, 0.82);
+  .bg-glass-dark {
+    background: rgba(13, 37, 69, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }
 
-  /* ★ Navbar boundary helper — used by Navbar when scrolled */
-  .navbar-border {
-    border-bottom: 1px solid rgba(201, 106, 0, 0.22);
+  /* ─── BUTTONS ON LIGHT BACKGROUNDS ───────────────────── */
+  /* Primary — solid mustard fill, glows on hover           */
+  .btn-light-primary {
+    @apply relative inline-flex items-center justify-center
+           px-8 py-4 rounded-md overflow-hidden
+           bg-mustard-600 text-white
+           font-semibold text-base tracking-wide
+           transition-all duration-300
+           hover:bg-mustard-500
+           hover:shadow-[0_8px_32px_rgba(201,106,0,0.45)]
+           active:scale-95;
   }
 
-  /* Playfair as a utility */
+  /* Secondary — strong navy border, fills on hover */
+  .btn-light-secondary {
+    @apply relative inline-flex items-center justify-center
+           px-8 py-4 rounded-md overflow-hidden
+           border-2 border-navy-800 text-navy-800
+           font-semibold text-base tracking-wide
+           transition-all duration-300
+           hover:bg-navy-800 hover:text-cream-50
+           active:scale-95;
+  }
+
+  /* ─── BUTTONS ON DARK BACKGROUNDS ────────────────────── */
+  /* Primary — mustard solid, dramatic glow glitter effect   */
+  .btn-dark-primary {
+    @apply relative inline-flex items-center justify-center
+           px-8 py-4 rounded-md overflow-hidden
+           bg-mustard-600 text-white
+           font-semibold text-base tracking-wide
+           transition-all duration-300
+           hover:bg-mustard-500
+           hover:shadow-[0_0_20px_rgba(201,106,0,0.8),0_0_60px_rgba(201,106,0,0.3),0_0_100px_rgba(201,106,0,0.1)]
+           active:scale-95;
+  }
+
+  /* Secondary — cream outline, fills cream on hover */
+  .btn-dark-secondary {
+    @apply relative inline-flex items-center justify-center
+           px-8 py-4 rounded-md overflow-hidden
+           border-2 border-cream-50/70 text-cream-50
+           font-semibold text-base tracking-wide
+           transition-all duration-300
+           hover:bg-cream-50 hover:text-navy-800 hover:border-cream-50
+           active:scale-95;
+  }
+
+  /* ─── Section animated border line ───────────────────── */
+  /* Applied to the motion div that draws across the top    */
+  .section-border-light {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      #C96A00 20%,
+      #E8920A 50%,
+      #C96A00 80%,
+      transparent 100%
+    );
+  }
+
+  .section-border-dark {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      #F5B955 20%,
+      #FFF4DC 50%,
+      #F5B955 80%,
+      transparent 100%
+    );
+  }
+
+  /* Font utilities */
   .font-playfair { font-family: 'Playfair Display', serif; }
   .font-fira     { font-family: 'Fira Code', monospace; }
 }

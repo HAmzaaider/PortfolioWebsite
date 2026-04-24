@@ -30,7 +30,8 @@ const ScrollProgress = () => {
         className="fixed top-0 left-0 right-0 z-[9999] h-[2px] origin-left"
         style={{
           scaleX,
-          background: 'linear-gradient(90deg, #00CFAD, #80E8D8, #F5C842)',
+          // ★ Mustard gradient matching the Parchment & Ink theme
+          background: 'linear-gradient(90deg, #C96A00, #E8920A, #F5B955)',
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 0.3s ease',
         }}
@@ -48,8 +49,9 @@ const ScrollProgress = () => {
         className="
           fixed bottom-8 right-6 z-50
           px-3 py-1.5 rounded-full
-          bg-[#0E1A1C]/90 border border-[#00CFAD]/25
-          font-mono text-xs text-[#00CFAD]
+          /* ★ Navy pill with mustard text — on-theme, readable */
+          bg-navy-800/90 border border-mustard-600/30
+          font-mono text-xs text-mustard-400 font-semibold
           backdrop-blur-sm
           pointer-events-none
         "
