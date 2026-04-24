@@ -24,6 +24,6 @@ export const personalInfo = {
 
   socialLinks: {
     github: 'https://github.com/HAmzaaider',
-    linkedin: 'https://www.linkedin.com/in/hamza-haider-6b8063318',
+    linkedin: 'https://www.linkedin.com/in/hamza-haider-6b8063318?lipi=urn%3Ali%3Apage%3Ad_flagship3_messaging_conversation_detail%3B2k59jJLRSTiLhf5mnZjcVg%3D%3D',
   },
 }

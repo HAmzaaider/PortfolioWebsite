@@ -32,12 +32,12 @@ export const contactInfo = [
 export const socialLinks = [
   {
     name:  'GitHub',
-    href:  'https://github.com/yourusername',
+    href:  'https://github.com/HAmzaaider',
     label: 'View my code',
   },
   {
     name:  'LinkedIn',
-    href:  'https://linkedin.com/in/yourusername',
+    href:  'https://www.linkedin.com/in/hamza-haider-6b8063318?lipi=urn%3Ali%3Apage%3Ad_flagship3_messaging_conversation_detail%3B2k59jJLRSTiLhf5mnZjcVg%3D%3D',
     label: 'Connect with me',
   },
 ]
