@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, type Variants } from 'framer-motion'
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────
 interface NavLink {
-  label: string
-  href: string
+  label: string;
+  href: string;
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
-]
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
 
 // ─── Animation Variants ───────────────────────────────────────
 const logoVariants: Variants = {
@@ -26,7 +26,7 @@ const logoVariants: Variants = {
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
-}
+};
 
 const navContainerVariants: Variants = {
   hidden: {},
@@ -36,24 +36,24 @@ const navContainerVariants: Variants = {
       delayChildren: 0.35,
     },
   },
-}
+};
 
 const navLinkVariants: Variants = {
   hidden: {
     opacity: 0,
     y: -24,
-    filter: 'blur(4px)',
+    filter: "blur(4px)",
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: {
       duration: 0.55,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
-}
+};
 
 const resumeVariants: Variants = {
   hidden: { opacity: 0, x: 50 },
@@ -66,50 +66,38 @@ const resumeVariants: Variants = {
       delay: 0.65,
     },
   },
-}
+};
 
 // ─── Component ────────────────────────────────────────────────
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [activeLink, setActiveLink] = useState('')
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   // Ref to track the nav list width for the sliding pill
-  const navRef = useRef<HTMLUListElement>(null)
+  const navRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      setScrolled(window.scrollY > 50);
 
-      const sections = [...NAV_LINKS].map((l) =>
-        l.href.replace('#', '')
-      )
+      const sections = [...NAV_LINKS].map((l) => l.href.replace("#", ""));
 
       for (const id of sections.reverse()) {
-        const el = document.getElementById(id)
+        const el = document.getElementById(id);
 
-        if (
-          el &&
-          window.scrollY >= el.offsetTop - 130
-        ) {
-          setActiveLink(`#${id}`)
-          break
+        if (el && window.scrollY >= el.offsetTop - 130) {
+          setActiveLink(`#${id}`);
+          break;
         }
       }
-    }
+    };
 
-    window.addEventListener(
-      'scroll',
-      handleScroll
-    )
+    window.addEventListener("scroll", handleScroll);
 
-    return () =>
-      window.removeEventListener(
-        'scroll',
-        handleScroll
-      )
-  }, [])
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
@@ -119,8 +107,8 @@ const Navbar = () => {
           transition-all duration-500
           ${
             scrolled
-              ? 'bg-cream-50/96 backdrop-blur-xl py-3 shadow-[0_4px_32px_rgba(201,106,0,0.12)]'
-              : 'bg-cream-50/70 backdrop-blur-sm py-5'
+              ? "bg-cream-50/96 backdrop-blur-xl py-3 shadow-[0_4px_32px_rgba(201,106,0,0.12)]"
+              : "bg-cream-50/70 backdrop-blur-sm py-5"
           }
         `}
       >
@@ -128,7 +116,6 @@ const Navbar = () => {
         <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-mustard-600/30 to-transparent" />
 
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-
           {/* ── Logo ──────────────────────────────────────── */}
           <motion.a
             href="#hero"
@@ -140,8 +127,7 @@ const Navbar = () => {
             <span
               className="text-navy-800 font-bold text-xl tracking-tight group-hover:text-mustard-600 transition-colors duration-300"
               style={{
-                fontFamily:
-                  'Playfair Display, serif',
+                fontFamily: "Playfair Display, serif",
               }}
             >
               Hamza Haider
@@ -161,12 +147,8 @@ const Navbar = () => {
                 key={link.href}
                 variants={navLinkVariants}
                 className="relative"
-                onMouseEnter={() =>
-                  setHoveredLink(link.href)
-                }
-                onMouseLeave={() =>
-                  setHoveredLink(null)
-                }
+                onMouseEnter={() => setHoveredLink(link.href)}
+                onMouseLeave={() => setHoveredLink(null)}
               >
                 {/* ── Sliding hover background pill ─────────── */}
                 {/* Uses layoutId so it smoothly slides between links */}
@@ -184,7 +166,7 @@ const Navbar = () => {
                       opacity: 0,
                     }}
                     transition={{
-                      type: 'spring',
+                      type: "spring",
                       stiffness: 500,
                       damping: 35,
                     }}
@@ -199,8 +181,8 @@ const Navbar = () => {
                     transition-colors duration-200
                     ${
                       activeLink === link.href
-                        ? 'text-mustard-600'
-                        : 'text-navy-800/70 hover:text-mustard-600'
+                        ? "text-mustard-600"
+                        : "text-navy-800/70 hover:text-mustard-600"
                     }
                   `}
                 >
@@ -213,11 +195,7 @@ const Navbar = () => {
                       scaleX: 0,
                     }}
                     animate={{
-                      scaleX:
-                        activeLink ===
-                        link.href
-                          ? 1
-                          : 0,
+                      scaleX: activeLink === link.href ? 1 : 0,
                     }}
                     transition={{
                       duration: 0.3,
@@ -268,9 +246,7 @@ const Navbar = () => {
                 "
               />
 
-              <span className="relative z-10">
-                Resume
-              </span>
+              <span className="relative z-10">Resume</span>
 
               <svg
                 className="relative z-10 w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300"
@@ -290,9 +266,7 @@ const Navbar = () => {
 
           {/* ── Mobile Hamburger ───────────────────────────── */}
           <motion.button
-            onClick={() =>
-              setMenuOpen(!menuOpen)
-            }
+            onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden flex flex-col gap-[5px] p-2"
           >
             {[0, 1, 2].map((i) => (
@@ -300,8 +274,7 @@ const Navbar = () => {
                 key={i}
                 className="block h-[2px] bg-mustard-600 rounded-full"
                 style={{
-                  width:
-                    i === 1 ? 18 : 24,
+                  width: i === 1 ? 18 : 24,
                 }}
               />
             ))}
@@ -329,22 +302,16 @@ const Navbar = () => {
               gap-6 md:hidden
             "
           >
-            {NAV_LINKS.map(
-              (link, index) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() =>
-                    setMenuOpen(
-                      false
-                    )
-                  }
-                  className="text-4xl font-black text-navy-800"
-                >
-                  {link.label}
-                </motion.a>
-              )
-            )}
+            {NAV_LINKS.map((link) => (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="text-4xl font-black text-navy-800"
+              >
+                {link.label}
+              </motion.a>
+            ))}
 
             <motion.a
               href="/resume.pdf"
@@ -360,7 +327,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

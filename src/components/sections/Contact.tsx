@@ -1,29 +1,29 @@
-import { useRef, useState } from 'react'
-import { motion, useInView, type Variants } from 'framer-motion'
-import { web3FormsConfig, contactInfo, socialLinks } from '@data/contact'
+import { useRef, useState } from "react";
+import { motion, useInView, type Variants } from "framer-motion";
+import { web3FormsConfig, socialLinks } from "@data/contact";
 
 // ─── Types ────────────────────────────────────────────────────
 interface FormData {
-  name: string
-  email: string
-  subject: string
-  message: string
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
 interface FormErrors {
-  name?: string
-  email?: string
-  subject?: string
-  message?: string
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
 }
 
-type FormStatus = 'idle' | 'loading' | 'success' | 'error'
+type FormStatus = "idle" | "loading" | "success" | "error";
 
 // ─── Animation Variants ───────────────────────────────────────
 const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
-}
+};
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -32,13 +32,13 @@ const itemVariants: Variants = {
     y: 0,
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
   },
-}
+};
 
 // ─── Section Heading ──────────────────────────────────────────
 interface SectionHeadingProps {
-  label: string
-  title: string
-  highlight: string
+  label: string;
+  title: string;
+  highlight: string;
 }
 
 const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
@@ -49,7 +49,7 @@ const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
 
     <h2
       className="text-4xl md:text-5xl font-black text-navy-800"
-      style={{ fontFamily: 'Playfair Display, serif' }}
+      style={{ fontFamily: "Playfair Display, serif" }}
     >
       {title} <span className="text-gradient italic">{highlight}</span>
     </h2>
@@ -60,12 +60,17 @@ const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
       <div className="w-1.5 h-0.5 bg-mustard-600/25" />
     </div>
   </div>
-)
+);
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const Icons = {
   email: (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -76,7 +81,12 @@ const Icons = {
   ),
 
   location: (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -93,7 +103,12 @@ const Icons = {
   ),
 
   status: (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -114,26 +129,26 @@ const Icons = {
       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
   ),
-}
+};
 
 // ─── Form Input ───────────────────────────────────────────────
 interface FormInputProps {
-  label: string
-  name: keyof FormData
-  type?: string
-  value: string
-  error?: string
-  placeholder: string
-  multiline?: boolean
+  label: string;
+  name: keyof FormData;
+  type?: string;
+  value: string;
+  error?: string;
+  placeholder: string;
+  multiline?: boolean;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
 }
 
 const FormInput = ({
   label,
   name,
-  type = 'text',
+  type = "text",
   value,
   error,
   placeholder,
@@ -161,8 +176,8 @@ const FormInput = ({
           focus:bg-white
           ${
             error
-              ? 'border-red-400/50 focus:border-red-400'
-              : 'border-navy-800/10 focus:border-mustard-600/50'
+              ? "border-red-400/50 focus:border-red-400"
+              : "border-navy-800/10 focus:border-mustard-600/50"
           }
         `}
       />
@@ -181,8 +196,8 @@ const FormInput = ({
           focus:bg-white
           ${
             error
-              ? 'border-red-400/50 focus:border-red-400'
-              : 'border-navy-800/10 focus:border-mustard-600/50'
+              ? "border-red-400/50 focus:border-red-400"
+              : "border-navy-800/10 focus:border-mustard-600/50"
           }
         `}
       />
@@ -198,110 +213,105 @@ const FormInput = ({
       </motion.p>
     )}
   </div>
-)
+);
 
 // ─── Main Component ───────────────────────────────────────────
 const Contact = () => {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [status, setStatus] = useState<FormStatus>('idle')
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   // ── Direct Web3Forms fetch ────────────────────────────────
   const sendForm = async (data: FormData) => {
-    const payload = new FormData()
+    const payload = new FormData();
 
-    payload.append('access_key', web3FormsConfig.accessKey)
-    payload.append('name', data.name)
-    payload.append('email', data.email)
-    payload.append('subject', data.subject)
-    payload.append('message', data.message)
-    payload.append('from_name', 'Portfolio Contact Form')
+    payload.append("access_key", web3FormsConfig.accessKey);
+    payload.append("name", data.name);
+    payload.append("email", data.email);
+    payload.append("subject", data.subject);
+    payload.append("message", data.message);
+    payload.append("from_name", "Portfolio Contact Form");
 
-    const res = await fetch(
-      'https://api.web3forms.com/submit',
-      {
-        method: 'POST',
-        body: payload,
-      }
-    )
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: payload,
+    });
 
-    const result = await res.json()
-    return result.success
-  }
+    const result = await res.json();
+    return result.success;
+  };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
 
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
         [name]: undefined,
-      }))
+      }));
     }
-  }
+  };
 
   const validate = () => {
-    const e: FormErrors = {}
+    const e: FormErrors = {};
 
-    if (!formData.name.trim()) e.name = 'Name is required'
-    if (!formData.email.trim()) e.email = 'Email is required'
+    if (!formData.name.trim()) e.name = "Name is required";
+    if (!formData.email.trim()) e.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      e.email = 'Invalid email'
+      e.email = "Invalid email";
 
-    if (!formData.subject.trim())
-      e.subject = 'Subject is required'
+    if (!formData.subject.trim()) e.subject = "Subject is required";
 
-    if (!formData.message.trim())
-      e.message = 'Message is required'
+    if (!formData.message.trim()) e.message = "Message is required";
     else if (formData.message.trim().length < 20)
-      e.message = 'At least 20 characters'
+      e.message = "At least 20 characters";
 
-    setErrors(e)
+    setErrors(e);
 
-    return Object.keys(e).length === 0
-  }
+    return Object.keys(e).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validate()) return
+    if (!validate()) return;
 
-    setStatus('loading')
+    setStatus("loading");
 
     try {
-      const ok = await sendForm(formData)
+      const ok = await sendForm(formData);
 
       if (ok) {
-        setStatus('success')
+        setStatus("success");
         setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        })
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
       } else {
-        setStatus('error')
+        setStatus("error");
       }
     } catch {
-      setStatus('error')
+      setStatus("error");
     }
-  }
+  };
 
   return (
     <section
@@ -309,14 +319,15 @@ const Contact = () => {
       ref={sectionRef}
       className="relative min-h-screen bg-cream-100 py-24 md:py-32 overflow-hidden"
     >
-      <div className="
+      <div
+        className="
         absolute top-0 left-1/2 -translate-x-1/2
         w-[600px] h-[600px] rounded-full
         bg-mustard-600/5 blur-3xl pointer-events-none
-      " />
+      "
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -330,15 +341,13 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-
           {/* ── LEFT — Info ───────────────────────────────── */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+            animate={isInView ? "visible" : "hidden"}
             className="lg:col-span-2 flex flex-col gap-8"
           >
-
             {/* Social links */}
             <motion.div variants={itemVariants}>
               <p className="text-navy-800/40 text-xs font-mono tracking-widest mb-4">
@@ -362,25 +371,23 @@ const Contact = () => {
                       transition-all duration-300 group
                     "
                   >
-                    <div className="
+                    <div
+                      className="
                       w-10 h-10 rounded-lg flex-shrink-0
                       bg-mustard-600/10 text-mustard-600
                       flex items-center justify-center
                       group-hover:bg-mustard-600 group-hover:text-white
                       transition-all duration-300
-                    ">
-                      {Icons[
-                        social.name.toLowerCase() as keyof typeof Icons
-                      ]}
+                    "
+                    >
+                      {Icons[social.name.toLowerCase() as keyof typeof Icons]}
                     </div>
 
                     <div className="flex-1">
                       <p className="text-navy-800 text-sm font-medium">
                         {social.name}
                       </p>
-                      <p className="text-navy-800/40 text-xs">
-                        {social.label}
-                      </p>
+                      <p className="text-navy-800/40 text-xs">{social.label}</p>
                     </div>
 
                     <svg
@@ -409,13 +416,15 @@ const Contact = () => {
             transition={{ delay: 0.3, duration: 0.7 }}
             className="lg:col-span-3"
           >
-            <div className="
+            <div
+              className="
               p-6 md:p-8 rounded-2xl
               border border-mustard-600/18
               bg-white/90
               shadow-[0_10px_40px_rgba(27,58,107,0.08)]
-            ">
-              {status === 'success' ? (
+            "
+            >
+              {status === "success" ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -423,7 +432,7 @@ const Contact = () => {
                 >
                   <h3
                     className="text-2xl font-black"
-                    style={{ fontFamily: 'Playfair Display, serif' }}
+                    style={{ fontFamily: "Playfair Display, serif" }}
                   >
                     Message Sent!
                   </h3>
@@ -431,7 +440,6 @@ const Contact = () => {
               ) : (
                 <form onSubmit={handleSubmit} noValidate>
                   <div className="flex flex-col gap-5">
-
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <FormInput
                         label="Your Name"
@@ -474,28 +482,24 @@ const Contact = () => {
 
                     <motion.button
                       type="submit"
-                      disabled={status === 'loading'}
+                      disabled={status === "loading"}
                       className="
                         w-full py-4 rounded-xl
                         bg-mustard-600 text-white
                         font-mono font-semibold text-sm
                       "
                     >
-                      {status === 'loading'
-                        ? 'Sending...'
-                        : 'Send Message'}
+                      {status === "loading" ? "Sending..." : "Send Message"}
                     </motion.button>
-
                   </div>
                 </form>
               )}
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;
