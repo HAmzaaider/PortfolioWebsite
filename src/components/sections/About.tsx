@@ -201,7 +201,7 @@ const About = () => {
                 ? 'visible'
                 : 'hidden'
             }
-            className="order-1 lg:order-2"
+            className="order-1 lg:order-2 relative z-[10000]"
             data-about-under-text="true"
           >
             {/* Heading — Rule applied */}

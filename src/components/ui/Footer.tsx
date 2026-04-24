@@ -10,28 +10,20 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
 
-          {/* Logo */}
-          <a href="#hero" className="group flex items-center gap-1">
-            <motion.span
-              className="text-mustard-400 font-mono text-xl font-bold"
-              whileHover={{ rotate: -15 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            >
-              &lt;
-            </motion.span>
+          {/* Brand */}
+          <a href="#hero" className="group relative">
             <span
-              className="text-cream-50 font-bold text-lg group-hover:text-mustard-400 transition-colors duration-300"
+              className="text-cream-50 text-xl md:text-2xl font-black tracking-wide transition-colors duration-300 group-hover:text-mustard-300"
               style={{ fontFamily: 'Playfair Display, serif' }}
             >
               Hamza Haider
             </span>
             <motion.span
-              className="text-mustard-400 font-mono text-xl font-bold"
-              whileHover={{ rotate: 15 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            >
-              /&gt;
-            </motion.span>
+              className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-mustard-500 via-mustard-400 to-transparent"
+              initial={{ width: '35%' }}
+              whileHover={{ width: '100%' }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+            />
           </a>
 
           {/* Copyright */}

@@ -218,13 +218,13 @@ const CustomCursor = () => {
           ringRef.current.style.width = '82px'
           ringRef.current.style.height = '82px'
           ringRef.current.style.borderColor = 'transparent'
-          ringRef.current.style.backgroundColor = 'rgba(245,185,85,0.14)'
-          ringRef.current.style.zIndex = '0'
+          ringRef.current.style.backgroundColor = 'rgba(245,185,85,0.28)'
+          ringRef.current.style.zIndex = '9998'
           ringRef.current.style.filter = 'blur(4px)'
         }
         if (dotRef.current) {
-          dotRef.current.style.backgroundColor = 'rgba(245,185,85,0.55)'
-          dotRef.current.style.transform = 'translate(-50%,-50%) scale(1.35)'
+          dotRef.current.style.backgroundColor = 'rgba(255,244,220,0.45)'
+          dotRef.current.style.transform = 'translate(-50%,-50%) scale(0)'
         }
         return
       }
