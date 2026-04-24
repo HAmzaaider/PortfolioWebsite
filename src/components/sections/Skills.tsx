@@ -8,10 +8,11 @@ const containerVariants: Variants = {
   visible: { transition: { staggerChildren: 0.08 } },
 }
 
+// ★ Skills entrance: stagger up from bottom + subtle scale — feels like bars rising
 const itemVariants: Variants = {
-  hidden:  { opacity: 0, y: 30 },
+  hidden:  { opacity: 0, y: 30, scale: 0.97 },
   visible: {
-    opacity: 1, y: 0,
+    opacity: 1, y: 0, scale: 1,
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
   },
 }
@@ -23,7 +24,7 @@ interface SectionHeadingProps {
 
 const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
   <div className="mb-12 md:mb-16 text-center">
-    <p className="font-mono text-sm text-mustard-600 tracking-widest mb-3">{label}</p>
+    <p className="font-mono text-sm font-semibold text-mustard-600 tracking-widest mb-3">{label}</p>
     <h2
       className="text-4xl md:text-5xl font-black text-navy-800"
       style={{ fontFamily: 'Playfair Display, serif' }}
@@ -46,8 +47,9 @@ interface SkillBarProps {
 const SkillBar = ({ name, level, isInView, index }: SkillBarProps) => (
   <motion.div variants={itemVariants} className="group">
     <div className="flex justify-between items-center mb-2">
-      <span className="text-navy-800 text-sm font-medium">{name}</span>
-      <span className="text-mustard-600 text-xs font-mono">{level}%</span>
+      {/* ★ font-semibold for skill name clarity */}
+      <span className="text-navy-800 text-sm font-semibold">{name}</span>
+      <span className="text-mustard-600 text-xs font-mono font-semibold">{level}%</span>
     </div>
     {/* Track */}
     <div className="h-1.5 bg-navy-800/10 rounded-full overflow-hidden">
@@ -84,10 +86,10 @@ const TechIconCard = ({ name, color, index }: TechIconCardProps) => (
     className="
       flex flex-col items-center justify-center gap-2
       p-4 rounded-xl
-      border border-navy-800/10
-      bg-cream-50
+      border border-navy-800/12
+      bg-cream-100
       hover:border-mustard-600/40
-      hover:shadow-[0_4px_20px_rgba(217,119,6,0.1)]
+      hover:shadow-[0_4px_20px_rgba(201,106,0,0.10)]
       transition-all duration-300
       group cursor-default
     "
@@ -97,7 +99,8 @@ const TechIconCard = ({ name, color, index }: TechIconCardProps) => (
       className="w-3 h-3 rounded-full transition-transform duration-300 group-hover:scale-125"
       style={{ backgroundColor: color }}
     />
-    <span className="text-navy-800/50 text-xs font-mono group-hover:text-navy-800 transition-colors duration-300">
+    {/* ★ font-medium for tech name legibility */}
+    <span className="text-navy-800/60 text-xs font-mono font-medium group-hover:text-navy-800 transition-colors duration-300">
       {name}
     </span>
   </motion.div>
@@ -117,7 +120,8 @@ const Skills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-hidden"
+      // ★ Skills = cream-50 (step 3 of alternating pattern)
+      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-x-hidden"
     >
       {/* ── Background decoration ─────────────────────────── */}
       <div className="
@@ -140,11 +144,11 @@ const Skills = () => {
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   className={`
-                    px-4 py-1.5 rounded-full text-xs font-mono
+                    px-4 py-1.5 rounded-full text-xs font-mono font-semibold
                     border transition-all duration-300
                     ${activeCategory === cat
                       ? 'bg-mustard-600 text-white border-mustard-600'
-                      : 'text-navy-800/50 border-navy-800/15 hover:border-mustard-600/40 hover:text-mustard-600'
+                      : 'text-navy-800/60 border-navy-800/15 hover:border-mustard-600/40 hover:text-mustard-600'
                     }
                   `}
                 >
@@ -175,7 +179,7 @@ const Skills = () => {
 
           {/* ── RIGHT — Tech Stack Grid ───────────────────── */}
           <div>
-            <p className="text-navy-800/40 font-mono text-xs tracking-widest mb-8">
+            <p className="text-navy-800/50 font-mono text-xs font-semibold tracking-widest mb-8">
               TECHNOLOGIES I WORK WITH
             </p>
 
@@ -202,14 +206,14 @@ const Skills = () => {
               transition={{ delay: 0.8, duration: 0.6 }}
               className="
                 mt-8 p-5 rounded-xl
-                border border-mustard-600/15
-                bg-navy-800/[0.03]
+                border border-mustard-600/20
+                bg-cream-100
               "
             >
-              <p className="text-mustard-600 font-mono text-xs mb-2">
+              <p className="text-mustard-600 font-mono text-xs font-semibold mb-2">
                 ~/hamza <span className="text-navy-800/40">$</span> current_focus
               </p>
-              <p className="text-navy-800/70 text-sm leading-relaxed">
+              <p className="text-navy-800/75 text-sm leading-relaxed font-normal">
                 Currently deepening expertise in{' '}
                 <span className="text-mustard-600 font-semibold">Three.js</span>,{' '}
                 <span className="text-mustard-600 font-semibold">React Three Fiber</span>, and{' '}
@@ -220,6 +224,13 @@ const Skills = () => {
             </motion.div>
           </div>
         </div>
+      </div>
+
+      {/* ★ Section divider — diagonal into Projects (cream-100 = #FEE8A0) */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none pointer-events-none">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none" className="w-full h-12 block">
+          <path d="M0,50 L1440,0 L1440,50 Z" fill="#FEE8A0" />
+        </svg>
       </div>
     </section>
   )
