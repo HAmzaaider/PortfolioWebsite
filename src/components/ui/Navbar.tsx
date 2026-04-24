@@ -248,8 +248,7 @@ const Navbar = () => {
           >
             <a
               href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              download="resume.pdf"
               className="
                 relative inline-flex items-center gap-2
                 px-5 py-2.5 rounded-lg overflow-hidden
@@ -349,8 +348,7 @@ const Navbar = () => {
 
             <motion.a
               href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              download="resume.pdf"
               className="
                 mt-6 px-10 py-3.5 rounded-xl
                 bg-mustard-600 text-white

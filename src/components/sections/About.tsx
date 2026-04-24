@@ -327,8 +327,7 @@ const About = () => {
             >
               <a
                 href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+                download="resume.pdf"
                 className="btn-dark-secondary inline-flex items-center gap-3"
               >
                 Download CV
