@@ -202,6 +202,7 @@ const About = () => {
                 : 'hidden'
             }
             className="order-1 lg:order-2"
+            data-about-under-text="true"
           >
             {/* Heading — Rule applied */}
             <div className="mb-12 md:mb-16">

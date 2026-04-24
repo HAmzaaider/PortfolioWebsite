@@ -49,6 +49,8 @@ const TechIconCard = ({ name, color, index }: TechIconCardProps) => (
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView   = useInView(sectionRef, { once: true, margin: '-100px' })
+  const barsRef = useRef<HTMLDivElement>(null)
+  const barsInView = useInView(barsRef, { once: true, margin: '-20% 0px -30% 0px' })
   const [activeCategory, setActiveCategory] = useState<SkillCategory>('All')
   const filteredSkills = activeCategory === 'All' ? skills : skills.filter(s => s.category === activeCategory)
 
@@ -100,14 +102,15 @@ const Skills = () => {
             </div>
 
             <motion.div
+              ref={barsRef}
               key={activeCategory}
               variants={containerVariants}
               initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
+              animate={barsInView ? 'visible' : 'hidden'}
               className="flex flex-col gap-7"
             >
               {filteredSkills.map((skill, index) => (
-                <SkillBar key={skill.name} name={skill.name} level={skill.level} isInView={isInView} index={index} />
+                <SkillBar key={skill.name} name={skill.name} level={skill.level} isInView={barsInView} index={index} />
               ))}
             </motion.div>
           </div>

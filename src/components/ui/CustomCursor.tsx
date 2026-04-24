@@ -207,6 +207,28 @@ const CustomCursor = () => {
         return
       }
 
+      const insideAboutText =
+        !!target.closest('[data-about-under-text="true"]') &&
+        TEXT_TAGS.includes(tagName) &&
+        !!target.textContent?.trim()
+
+      if (insideAboutText) {
+        removeWaterFromText()
+        if (ringRef.current) {
+          ringRef.current.style.width = '82px'
+          ringRef.current.style.height = '82px'
+          ringRef.current.style.borderColor = 'transparent'
+          ringRef.current.style.backgroundColor = 'rgba(245,185,85,0.14)'
+          ringRef.current.style.zIndex = '0'
+          ringRef.current.style.filter = 'blur(4px)'
+        }
+        if (dotRef.current) {
+          dotRef.current.style.backgroundColor = 'rgba(245,185,85,0.55)'
+          dotRef.current.style.transform = 'translate(-50%,-50%) scale(1.35)'
+        }
+        return
+      }
+
       // ── 3. Outside #projects — remove water, reset cursor ─
       if (!insideProjects) {
         removeWaterFromText()
