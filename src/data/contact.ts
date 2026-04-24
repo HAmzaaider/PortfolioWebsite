@@ -3,7 +3,7 @@
 // Just enter your email — they send the key instantly, no signup needed
 
 export const web3FormsConfig = {
-  accessKey: '8058b000-e8b5-4b93-b66c-9a0dca48f7e9',  // paste the key from your email here
+  accessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '',
 }
 
 // ─── Contact info cards ───────────────────────────────────────
