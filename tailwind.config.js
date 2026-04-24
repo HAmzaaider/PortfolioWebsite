@@ -5,25 +5,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50:  '#FFFBF0',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-        },
-        navy: {
-          900: '#0F1B35',
-          800: '#1B3A6B',
-          700: '#1E4080',
-          600: '#2563EB',
-          400: '#60A5FA',
-        },
-        mustard: {
-          600: '#D97706',
-          500: '#F59E0B',
-          400: '#FCD34D',
-          300: '#FDE68A',
-        },
-      },
+  cream: {
+    50:  '#FFF4DC',
+    100: '#FEE8A0',
+    200: '#FDDEA0',
+  },
+  navy: {
+    900: '#060F1E',
+    800: '#0D2545',
+    700: '#12306B',
+    600: '#1A3A6B',
+    400: '#4A7FC1',
+  },
+  mustard: {
+    600: '#C96A00',
+    500: '#E8920A',
+    400: '#F5B955',
+    300: '#FDDEA0',
+  },
+},
       fontFamily: {
         sans:     ['Inter', 'sans-serif'],
         serif:    ['Playfair Display', 'serif'],
