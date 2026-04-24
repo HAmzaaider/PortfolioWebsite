@@ -1,33 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Theme Variables ─────────────────────────────────────── */
 :root {
-  --bg-primary:    #080E10;
-  --bg-secondary:  #0E1A1C;
-  --bg-tertiary:   #152424;
-  --accent-cyan:   #00CFAD;
-  --accent-light:  #2ECFB0;
-  --accent-pale:   #80E8D8;
-  --accent-yellow: #F5C842;
-  --text-primary:  #E8F8F5;
-  --text-muted:    #6B9E94;
-  --border-color:  rgba(0, 207, 173, 0.15);
+  --bg-primary:      #FFFBF0;
+  --bg-secondary:    #FEF3C7;
+  --bg-tertiary:     #FDE68A;
+  --accent-mustard:  #D97706;
+  --accent-amber:    #F59E0B;
+  --accent-pale:     #FCD34D;
+  --accent-blue:     #2563EB;
+  --accent-blue-lt:  #60A5FA;
+  --text-primary:    #1B3A6B;
+  --text-secondary:  #92400E;
+  --text-muted:      #4A7FC1;
+  --border-color:    rgba(217, 119, 6, 0.18);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  cursor: none; 
-  /* ← add this  disabled the custom cursor globally */
+  cursor: none;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg-primary);
@@ -36,31 +36,57 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 5px; }
+/* ─── Custom Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: var(--accent-mustard); border-radius: 10px; }
 
-/* Selection color */
+/* ─── Selection ───────────────────────────────────────────── */
 ::selection {
-  background: var(--accent-cyan);
-  color: var(--bg-primary);
+  background: var(--accent-mustard);
+  color: #fff;
 }
 
+/* ─── Water cursor text effect ───────────────────────────── */
+/* Applied via JS when cursor hovers a text element */
+.water-text-active {
+  filter: url(#water-ripple);
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+}
+
+/* ─── Utility classes ─────────────────────────────────────── */
 @layer utilities {
+  /* Mustard gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, #00CFAD, #80E8D8);
+    background: linear-gradient(135deg, #D97706, #F59E0B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .border-glow {
-    border: 1px solid rgba(0, 207, 173, 0.3);
-    box-shadow: 0 0 20px rgba(0, 207, 173, 0.05);
+
+  /* Blue gradient text */
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #1B3A6B, #2563EB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
+
+  .border-glow {
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    box-shadow: 0 0 20px rgba(217, 119, 6, 0.08);
+  }
+
+  /* Glassmorphism for light bg */
   .bg-glass {
-    background: rgba(14, 26, 28, 0.7);
+    background: rgba(255, 251, 240, 0.75);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
+
+  /* Playfair as a utility */
+  .font-playfair { font-family: 'Playfair Display', serif; }
+  .font-fira     { font-family: 'Fira Code', monospace; }
 }
