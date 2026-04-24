@@ -6,7 +6,7 @@
     "module": "ESNext",
     "types": ["vite/client"],
     "skipLibCheck": true,
-    "ignoreDeprecations": "5.0",   // ← add this line
+    
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -17,7 +17,7 @@
     "jsx": "react-jsx",
 
     /* Path aliases */
-    "baseUrl": ".",
+    // "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
