@@ -16,59 +16,49 @@ const itemVariants: Variants = {
   },
 }
 
-// ─── Reusable Section Heading ─────────────────────────────────
-// Same pattern as About — keeping UI consistent across sections
+// ─── Section Heading ──────────────────────────────────────────
 interface SectionHeadingProps {
-  label: string
-  title: string
-  highlight: string
+  label: string; title: string; highlight: string
 }
 
 const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
   <div className="mb-12 md:mb-16 text-center">
-    <p className="text-[#00CFAD] font-mono text-sm tracking-widest mb-3">{label}</p>
-    <h2 className="text-4xl md:text-5xl font-bold text-white">
-      {title} <span className="text-gradient">{highlight}</span>
+    <p className="font-mono text-sm text-mustard-600 tracking-widest mb-3">{label}</p>
+    <h2
+      className="text-4xl md:text-5xl font-black text-navy-800"
+      style={{ fontFamily: 'Playfair Display, serif' }}
+    >
+      {title} <span className="text-gradient italic">{highlight}</span>
     </h2>
     <div className="flex items-center justify-center gap-3 mt-4">
-      <div className="w-12 h-0.5 bg-[#00CFAD]" />
-      <div className="w-3 h-0.5 bg-[#00CFAD]/50" />
-      <div className="w-1.5 h-0.5 bg-[#00CFAD]/25" />
+      <div className="w-12 h-0.5 bg-mustard-600" />
+      <div className="w-3  h-0.5 bg-mustard-600/50" />
+      <div className="w-1.5 h-0.5 bg-mustard-600/25" />
     </div>
   </div>
 )
 
 // ─── Skill Bar ────────────────────────────────────────────────
-// Each bar animates its width from 0 to the skill level on scroll
 interface SkillBarProps {
-  name: string
-  level: number
-  isInView: boolean
-  index: number
+  name: string; level: number; isInView: boolean; index: number
 }
 
 const SkillBar = ({ name, level, isInView, index }: SkillBarProps) => (
-  <motion.div
-    variants={itemVariants}
-    className="group"
-  >
-    {/* Label row — skill name on left, percentage on right */}
+  <motion.div variants={itemVariants} className="group">
     <div className="flex justify-between items-center mb-2">
-      <span className="text-white text-sm font-medium">{name}</span>
-      <span className="text-[#00CFAD] text-xs font-mono">{level}%</span>
+      <span className="text-navy-800 text-sm font-medium">{name}</span>
+      <span className="text-mustard-600 text-xs font-mono">{level}%</span>
     </div>
-
-    {/* Track — the grey background bar */}
-    <div className="h-1.5 bg-[#152424] rounded-full overflow-hidden">
-      {/* Fill — animates width when section comes into view */}
+    {/* Track */}
+    <div className="h-1.5 bg-navy-800/10 rounded-full overflow-hidden">
+      {/* Fill — animates from 0 to level% on scroll */}
       <motion.div
-        className="h-full rounded-full bg-gradient-to-r from-[#00CFAD] to-[#80E8D8]"
+        className="h-full rounded-full bg-gradient-to-r from-mustard-600 to-mustard-400"
         initial={{ width: 0 }}
         animate={{ width: isInView ? `${level}%` : 0 }}
         transition={{
           duration: 1.2,
           ease: [0.25, 0.1, 0.25, 1],
-          // Each bar fills in one after another (staggered by index)
           delay: 0.2 + index * 0.07,
         }}
       />
@@ -77,41 +67,37 @@ const SkillBar = ({ name, level, isInView, index }: SkillBarProps) => (
 )
 
 // ─── Tech Icon Card ───────────────────────────────────────────
-// Small card showing a technology name with its brand color
 interface TechIconCardProps {
-  name: string
-  color: string
-  index: number
+  name: string; color: string; index: number
 }
 
 const TechIconCard = ({ name, color, index }: TechIconCardProps) => (
   <motion.div
     variants={itemVariants}
-    // Subtle floating animation — each card bobs at a different speed
-    animate={{
-      y: [0, index % 2 === 0 ? -6 : 6, 0],
-    }}
+    animate={{ y: [0, index % 2 === 0 ? -6 : 6, 0] }}
     transition={{
       duration: 3 + (index % 3) * 0.5,
       repeat: Infinity,
       ease: 'easeInOut',
-      delay: index * 0.15,
+      delay: index * 0.12,
     }}
     className="
       flex flex-col items-center justify-center gap-2
       p-4 rounded-xl
-      border border-[#00CFAD]/15 bg-[#0E1A1C]/80
-      hover:border-[#00CFAD]/50 hover:bg-[#152424]
-      transition-all duration-300 cursor-default
-      group
+      border border-navy-800/10
+      bg-cream-50
+      hover:border-mustard-600/40
+      hover:shadow-[0_4px_20px_rgba(217,119,6,0.1)]
+      transition-all duration-300
+      group cursor-default
     "
   >
-    {/* Colored dot representing the tech's brand color */}
+    {/* Brand color dot */}
     <div
       className="w-3 h-3 rounded-full transition-transform duration-300 group-hover:scale-125"
       style={{ backgroundColor: color }}
     />
-    <span className="text-[#6B9E94] text-xs font-mono group-hover:text-white transition-colors duration-300">
+    <span className="text-navy-800/50 text-xs font-mono group-hover:text-navy-800 transition-colors duration-300">
       {name}
     </span>
   </motion.div>
@@ -121,37 +107,28 @@ const TechIconCard = ({ name, color, index }: TechIconCardProps) => (
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView   = useInView(sectionRef, { once: true, margin: '-100px' })
-
-  // Active category filter tab — 'All' by default
   const [activeCategory, setActiveCategory] = useState<SkillCategory>('All')
 
-  // Filter skills based on active category tab
   const filteredSkills = activeCategory === 'All'
     ? skills
-    : skills.filter((s) => s.category === activeCategory)
+    : skills.filter(s => s.category === activeCategory)
 
   return (
     <section
       id="skills"
       ref={sectionRef}
-      className="relative min-h-screen bg-[#080E10] py-24 md:py-32 overflow-hidden"
+      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-hidden"
     >
-      {/* ── Background glow ───────────────────────────────── */}
+      {/* ── Background decoration ─────────────────────────── */}
       <div className="
-        absolute top-1/2 left-0 -translate-y-1/2
+        absolute bottom-0 left-0
         w-[500px] h-[500px] rounded-full
-        bg-[#00CFAD]/3 blur-3xl pointer-events-none
+        bg-navy-800/3 blur-3xl pointer-events-none
       " />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+        <SectionHeading label="02. WHAT I KNOW" title="My" highlight="Skills" />
 
-        <SectionHeading
-          label="02. WHAT I KNOW"
-          title="My"
-          highlight="Skills"
-        />
-
-        {/* ── Main grid — skill bars left, tech icons right ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
 
           {/* ── LEFT — Skill Bars ─────────────────────────── */}
@@ -166,8 +143,8 @@ const Skills = () => {
                     px-4 py-1.5 rounded-full text-xs font-mono
                     border transition-all duration-300
                     ${activeCategory === cat
-                      ? 'bg-[#00CFAD] text-[#080E10] border-[#00CFAD]'
-                      : 'text-[#6B9E94] border-[#00CFAD]/20 hover:border-[#00CFAD]/50'
+                      ? 'bg-mustard-600 text-white border-mustard-600'
+                      : 'text-navy-800/50 border-navy-800/15 hover:border-mustard-600/40 hover:text-mustard-600'
                     }
                   `}
                 >
@@ -176,9 +153,9 @@ const Skills = () => {
               ))}
             </div>
 
-            {/* Skill bars — re-render with animation on category change */}
+            {/* Skill bars */}
             <motion.div
-              key={activeCategory} // key change forces re-mount = re-animation
+              key={activeCategory}
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
@@ -198,7 +175,7 @@ const Skills = () => {
 
           {/* ── RIGHT — Tech Stack Grid ───────────────────── */}
           <div>
-            <p className="text-[#6B9E94] font-mono text-sm tracking-widest mb-8">
+            <p className="text-navy-800/40 font-mono text-xs tracking-widest mb-8">
               TECHNOLOGIES I WORK WITH
             </p>
 
@@ -206,7 +183,7 @@ const Skills = () => {
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
-              className="grid grid-cols-3 sm:grid-cols-4 gap-4"
+              className="grid grid-cols-3 sm:grid-cols-4 gap-3"
             >
               {techStack.map((tech, index) => (
                 <TechIconCard
@@ -218,25 +195,25 @@ const Skills = () => {
               ))}
             </motion.div>
 
-            {/* ── Extra info card ───────────────────────────── */}
+            {/* Terminal info card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.8, duration: 0.6 }}
               className="
                 mt-8 p-5 rounded-xl
-                border border-[#00CFAD]/15 bg-[#0E1A1C]/60
+                border border-mustard-600/15
+                bg-navy-800/[0.03]
               "
             >
-              {/* Terminal-style text block */}
-              <p className="text-[#00CFAD] font-mono text-xs mb-2">
-                ~/hamza <span className="text-[#6B9E94]">$</span> current_focus
+              <p className="text-mustard-600 font-mono text-xs mb-2">
+                ~/hamza <span className="text-navy-800/40">$</span> current_focus
               </p>
-              <p className="text-white text-sm leading-relaxed">
+              <p className="text-navy-800/70 text-sm leading-relaxed">
                 Currently deepening expertise in{' '}
-                <span className="text-[#00CFAD]">Three.js</span>,{' '}
-                <span className="text-[#00CFAD]">React Three Fiber</span>, and{' '}
-                <span className="text-[#00CFAD]">advanced animations</span> —
+                <span className="text-mustard-600 font-semibold">Three.js</span>,{' '}
+                <span className="text-mustard-600 font-semibold">React Three Fiber</span>, and{' '}
+                <span className="text-mustard-600 font-semibold">advanced animations</span> —
                 building immersive web experiences that push the boundaries
                 of what's possible in the browser.
               </p>

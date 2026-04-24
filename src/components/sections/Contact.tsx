@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, type Variants } from 'framer-motion'
-import useWeb3Forms from '@web3forms/react'
 import { web3FormsConfig, contactInfo, socialLinks } from '@data/contact'
 
 // ─── Types ────────────────────────────────────────────────────
@@ -31,10 +30,7 @@ const itemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
   },
 }
 
@@ -45,38 +41,82 @@ interface SectionHeadingProps {
   highlight: string
 }
 
-const SectionHeading = ({
-  label,
-  title,
-  highlight,
-}: SectionHeadingProps) => (
+const SectionHeading = ({ label, title, highlight }: SectionHeadingProps) => (
   <div className="mb-12 md:mb-16 text-center">
-    <p className="text-[#00CFAD] font-mono text-sm tracking-widest mb-3">
+    <p className="font-mono text-sm text-mustard-600 tracking-widest mb-3">
       {label}
     </p>
 
-    <h2 className="text-4xl md:text-5xl font-bold text-white">
-      {title} <span className="text-gradient">{highlight}</span>
+    <h2
+      className="text-4xl md:text-5xl font-black text-navy-800"
+      style={{ fontFamily: 'Playfair Display, serif' }}
+    >
+      {title} <span className="text-gradient italic">{highlight}</span>
     </h2>
 
     <div className="flex items-center justify-center gap-3 mt-4">
-      <div className="w-12 h-0.5 bg-[#00CFAD]" />
-      <div className="w-3 h-0.5 bg-[#00CFAD]/50" />
-      <div className="w-1.5 h-0.5 bg-[#00CFAD]/25" />
+      <div className="w-12 h-0.5 bg-mustard-600" />
+      <div className="w-3 h-0.5 bg-mustard-600/50" />
+      <div className="w-1.5 h-0.5 bg-mustard-600/25" />
     </div>
   </div>
 )
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const Icons = {
-  email: <svg className="w-5 h-5" />,
-  location: <svg className="w-5 h-5" />,
-  status: <svg className="w-5 h-5" />,
-  github: <svg className="w-5 h-5" />,
-  linkedin: <svg className="w-5 h-5" />,
+  email: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
+    </svg>
+  ),
+
+  location: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+    </svg>
+  ),
+
+  status: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  ),
+
+  github: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385..." />
+    </svg>
+  ),
+
+  linkedin: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20.447 20.452h-3.554v-5.569..." />
+    </svg>
+  ),
 }
 
-// ─── Form Input Component ─────────────────────────────────────
+// ─── Form Input ───────────────────────────────────────────────
 interface FormInputProps {
   label: string
   name: keyof FormData
@@ -86,9 +126,7 @@ interface FormInputProps {
   placeholder: string
   multiline?: boolean
   onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
 }
 
@@ -103,9 +141,9 @@ const FormInput = ({
   onChange,
 }: FormInputProps) => (
   <div className="flex flex-col gap-1.5">
-    <label className="text-[#6B9E94] text-xs font-mono tracking-wide">
+    <label className="text-navy-800/50 text-xs font-mono tracking-wide">
       {label}
-      <span className="text-[#00CFAD] ml-1">*</span>
+      <span className="text-mustard-600 ml-1">*</span>
     </label>
 
     {multiline ? (
@@ -115,7 +153,18 @@ const FormInput = ({
         onChange={onChange}
         placeholder={placeholder}
         rows={5}
-        className="w-full bg-[#152424]/50 rounded-lg px-4 py-3 text-white"
+        className={`
+          w-full bg-cream-50 rounded-lg px-4 py-3
+          text-navy-800 text-sm placeholder-navy-800/25
+          border outline-none resize-none
+          transition-all duration-300
+          focus:bg-white
+          ${
+            error
+              ? 'border-red-400/50 focus:border-red-400'
+              : 'border-navy-800/10 focus:border-mustard-600/50'
+          }
+        `}
       />
     ) : (
       <input
@@ -124,15 +173,26 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full bg-[#152424]/50 rounded-lg px-4 py-3 text-white"
+        className={`
+          w-full bg-cream-50 rounded-lg px-4 py-3
+          text-navy-800 text-sm placeholder-navy-800/25
+          border outline-none
+          transition-all duration-300
+          focus:bg-white
+          ${
+            error
+              ? 'border-red-400/50 focus:border-red-400'
+              : 'border-navy-800/10 focus:border-mustard-600/50'
+          }
+        `}
       />
     )}
 
     {error && (
       <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-red-400 text-xs"
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-red-500 text-xs font-mono"
       >
         {error}
       </motion.p>
@@ -143,98 +203,124 @@ const FormInput = ({
 // ─── Main Component ───────────────────────────────────────────
 const Contact = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
-  const isInView = useInView(sectionRef, {
-    once: true,
-    margin: '-80px',
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
   })
 
-  const [formData, setFormData] =
-    useState<FormData>({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    })
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [status, setStatus] = useState<FormStatus>('idle')
 
-  const [errors, setErrors] =
-    useState<FormErrors>({})
+  // ── Direct Web3Forms fetch ────────────────────────────────
+  const sendForm = async (data: FormData) => {
+    const payload = new FormData()
 
-  const [status, setStatus] =
-    useState<FormStatus>('idle')
+    payload.append('access_key', web3FormsConfig.accessKey)
+    payload.append('name', data.name)
+    payload.append('email', data.email)
+    payload.append('subject', data.subject)
+    payload.append('message', data.message)
+    payload.append('from_name', 'Portfolio Contact Form')
 
-  // ── Web3Forms hook ────────────────────────────────────────
-  const { submit } = useWeb3Forms({
-    access_key: web3FormsConfig.accessKey,
+    const res = await fetch(
+      'https://api.web3forms.com/submit',
+      {
+        method: 'POST',
+        body: payload,
+      }
+    )
 
-    settings: {
-      from_name: 'Portfolio Contact Form',
-      subject: 'New message from your portfolio',
-    },
+    const result = await res.json()
+    return result.success
+  }
 
-    onSuccess: () => {
-      setStatus('success')
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      })
-    },
-
-    onError: () => {
-      setStatus('error')
-    },
-  })
-
-  // ── Input change handler ──────────────────────────────────
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
 
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }))
+
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined,
+      }))
+    }
   }
 
-  // ── Validation ────────────────────────────────────────────
-  const validate = () => true
+  const validate = () => {
+    const e: FormErrors = {}
 
-  // ── Submit handler ────────────────────────────────────────
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+    if (!formData.name.trim()) e.name = 'Name is required'
+    if (!formData.email.trim()) e.email = 'Email is required'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      e.email = 'Invalid email'
+
+    if (!formData.subject.trim())
+      e.subject = 'Subject is required'
+
+    if (!formData.message.trim())
+      e.message = 'Message is required'
+    else if (formData.message.trim().length < 20)
+      e.message = 'At least 20 characters'
+
+    setErrors(e)
+
+    return Object.keys(e).length === 0
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validate()) return
 
     setStatus('loading')
 
-    await submit(formData)
+    try {
+      const ok = await sendForm(formData)
+
+      if (ok) {
+        setStatus('success')
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative min-h-screen bg-[#0E1A1C] py-24"
+      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-hidden"
     >
-      {/* ── Background decoration ─────────────────────────── */}
-      <div className="absolute top-0 left-1/2 w-[600px] h-[600px]" />
+      <div className="
+        absolute top-0 left-1/2 -translate-x-1/2
+        w-[600px] h-[600px] rounded-full
+        bg-mustard-600/5 blur-3xl pointer-events-none
+      " />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={
-            isInView
-              ? { opacity: 1 }
-              : {}
-          }
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
         >
           <SectionHeading
             label="05. LET'S TALK"
@@ -243,134 +329,166 @@ const Contact = () => {
           />
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
-          {/* ── LEFT — Info Panel ─────────────────────────── */}
+          {/* ── LEFT — Info ───────────────────────────────── */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            animate={
-              isInView
-                ? 'visible'
-                : 'hidden'
-            }
-            className="lg:col-span-2"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="lg:col-span-2 flex flex-col gap-8"
           >
 
             {/* Social links */}
             <motion.div variants={itemVariants}>
-              <p className="text-[#6B9E94] text-xs font-mono tracking-widest mb-4">
+              <p className="text-navy-800/40 text-xs font-mono tracking-widest mb-4">
                 FIND ME ON
               </p>
 
               <div className="flex flex-col gap-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                      flex items-center gap-4 p-4 rounded-xl
+                      border border-navy-800/8
+                      bg-cream-100
+                      hover:border-mustard-600/25
+                      hover:shadow-[0_4px_20px_rgba(217,119,6,0.08)]
+                      transition-all duration-300 group
+                    "
+                  >
+                    <div className="
+                      w-10 h-10 rounded-lg flex-shrink-0
+                      bg-mustard-600/10 text-mustard-600
+                      flex items-center justify-center
+                      group-hover:bg-mustard-600 group-hover:text-white
+                      transition-all duration-300
+                    ">
+                      {Icons[
+                        social.name.toLowerCase() as keyof typeof Icons
+                      ]}
+                    </div>
 
-                {/* GitHub */}
-                <a
-                  href="https://github.com/HAmzaaider"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    flex items-center gap-4 p-4 rounded-xl
-                    border border-[#00CFAD]/10 bg-[#080E10]/50
-                  "
-                >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-                    {Icons.github}
-                  </div>
+                    <div className="flex-1">
+                      <p className="text-navy-800 text-sm font-medium">
+                        {social.name}
+                      </p>
+                      <p className="text-navy-800/40 text-xs">
+                        {social.label}
+                      </p>
+                    </div>
 
-                  <div className="flex-1">
-                    <p className="text-white text-sm">
-                      GitHub
-                    </p>
-
-                    <p className="text-[#6B9E94] text-xs">
-                      @HAmzaaider
-                    </p>
-                  </div>
-                </a>
-
-                {/* LinkedIn */}
-                <a
-                  href="https://www.linkedin.com/in/hamza-haider-6b8063318"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    flex items-center gap-4 p-4 rounded-xl
-                    border border-[#00CFAD]/10 bg-[#080E10]/50
-                  "
-                >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-                    {Icons.linkedin}
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="text-white text-sm">
-                      LinkedIn
-                    </p>
-
-                    <p className="text-[#6B9E94] text-xs">
-                      Connect with me
-                    </p>
-                  </div>
-                </a>
-
+                    <svg
+                      className="w-4 h-4 text-navy-800/20 group-hover:text-mustard-600 group-hover:translate-x-1 transition-all duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </a>
+                ))}
               </div>
             </motion.div>
-
           </motion.div>
 
-          {/* ── RIGHT — Contact Form ───────────────────────── */}
-          <motion.div className="lg:col-span-3">
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-5">
-
-                <FormInput
-                  label="Your Name"
-                  name="name"
-                  value={formData.name}
-                  error={errors.name}
-                  placeholder="Hamza Haider"
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Email Address"
-                  name="email"
-                  value={formData.email}
-                  error={errors.email}
-                  placeholder="hamza@email.com"
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Subject"
-                  name="subject"
-                  value={formData.subject}
-                  error={errors.subject}
-                  placeholder="Project idea..."
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Message"
-                  name="message"
-                  value={formData.message}
-                  error={errors.message}
-                  placeholder="Tell me about it..."
-                  multiline
-                  onChange={handleChange}
-                />
-
-                <button
-                  type="submit"
-                  className="w-full py-4 rounded-xl bg-[#00CFAD]"
+          {/* ── RIGHT — Form ──────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.7 }}
+            className="lg:col-span-3"
+          >
+            <div className="
+              p-6 md:p-8 rounded-2xl
+              border border-navy-800/8
+              bg-cream-100
+              shadow-[0_8px_40px_rgba(27,58,107,0.06)]
+            ">
+              {status === 'success' ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="py-16 text-center"
                 >
-                  Send Message
-                </button>
+                  <h3
+                    className="text-2xl font-black"
+                    style={{ fontFamily: 'Playfair Display, serif' }}
+                  >
+                    Message Sent!
+                  </h3>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate>
+                  <div className="flex flex-col gap-5">
 
-              </div>
-            </form>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <FormInput
+                        label="Your Name"
+                        name="name"
+                        value={formData.name}
+                        error={errors.name}
+                        placeholder="Hamza Haider"
+                        onChange={handleChange}
+                      />
+
+                      <FormInput
+                        label="Email Address"
+                        name="email"
+                        value={formData.email}
+                        error={errors.email}
+                        placeholder="hamza@email.com"
+                        onChange={handleChange}
+                        type="email"
+                      />
+                    </div>
+
+                    <FormInput
+                      label="Subject"
+                      name="subject"
+                      value={formData.subject}
+                      error={errors.subject}
+                      placeholder="Project collaboration"
+                      onChange={handleChange}
+                    />
+
+                    <FormInput
+                      label="Message"
+                      name="message"
+                      value={formData.message}
+                      error={errors.message}
+                      placeholder="Tell me about your project..."
+                      multiline
+                      onChange={handleChange}
+                    />
+
+                    <motion.button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="
+                        w-full py-4 rounded-xl
+                        bg-mustard-600 text-white
+                        font-mono font-semibold text-sm
+                      "
+                    >
+                      {status === 'loading'
+                        ? 'Sending...'
+                        : 'Send Message'}
+                    </motion.button>
+
+                  </div>
+                </form>
+              )}
+            </div>
           </motion.div>
 
         </div>
