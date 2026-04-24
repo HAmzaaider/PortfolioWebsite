@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react'
+// At top of each section component, import:
+import SectionBorder from '@components/ui/SectionBorder'
 import {
   motion,
   useInView,
@@ -352,28 +354,34 @@ const Projects = () => {
   )
 
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="relative min-h-screen bg-cream-100 py-24 md:py-32 overflow-hidden"
-    >
+    // ── navy-900: darkest section — most dramatic ─────────────────
+<section
+  id="projects"
+  ref={sectionRef}
+  className="relative min-h-screen bg-navy-900 py-24 md:py-32 overflow-hidden"
+>
+  <SectionBorder isInView={isInView} theme="dark" />
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-mustard-600/4 blur-3xl pointer-events-none" />
+
+
+
+
       {/* ── Background glow ───────────────────────────────── */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-mustard-600/5 blur-3xl pointer-events-none"/>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* ── Heading ───────────────────────────────────────── */}
-        <motion.div
-          variants={headingVariants}
-          initial="hidden"
-          animate={isInView?'visible':'hidden'}
-        >
-          <SectionHeading
-            label="03. WHAT I'VE BUILT"
-            title="My"
-            highlight="Projects"
-          />
-        </motion.div>
+       <p className="text-mustard-400 font-mono text-sm tracking-widest mb-3">03. WHAT I'VE BUILT</p>
+<h2 className="text-4xl md:text-5xl font-bold text-cream-50" style={{ fontFamily: 'Playfair Display, serif' }}>
+  My{' '}
+  <span className="text-gradient-light inline-block">Projects</span>
+</h2>
+<div className="flex items-center justify-center gap-3 mt-4">
+  <div className="w-12 h-0.5 bg-mustard-500" />
+  <div className="w-3 h-0.5 bg-mustard-500/50" />
+  <div className="w-1.5 h-0.5 bg-mustard-500/25" />
+</div>
 
         {/* ── Category Filter ───────────────────────────────── */}
         <motion.div

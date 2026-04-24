@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence, type Variants } from 'framer-motion'
 import { experiences, type ExperienceItem } from '@data/experience'
+import SectionBorder from '@components/ui/SectionBorder'
 
 // ─── Animation Variants ───────────────────────────────────────
 const containerVariants: Variants = {
@@ -245,12 +246,14 @@ const Experience = () => {
   const filteredItems = experiences.filter(e => e.type === activeTab)
 
   return (
-    <section
-      id="experience"
-      ref={sectionRef}
-      // ★ Experience = cream-50 (step 5 of alternating pattern)
-      className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-x-hidden"
-    >
+   
+// Section:
+<section
+  id="experience"
+  ref={sectionRef}
+  className="relative min-h-screen bg-cream-50 py-24 md:py-32 overflow-hidden"
+>
+  <SectionBorder isInView={isInView} theme="light" />
       <div className="
         absolute bottom-0 right-0
         w-[500px] h-[500px] rounded-full
