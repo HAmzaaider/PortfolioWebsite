@@ -33,7 +33,8 @@ function App() {
 // Each section is a full-height (or content-height) block
 function MainPage() {
   return (
-    <main className="relative bg-[#080E10] overflow-x-hidden">
+    // <main className="relative bg-[#080E10] overflow-x-hidden">
+    <main className="relative bg-cream-50 overflow-x-hidden">
 
       {/* Custom animated cursor — sits on top of everything */}
       <CustomCursor />
