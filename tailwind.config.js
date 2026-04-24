@@ -5,11 +5,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50:  '#FFF4DC',
-          100: '#FEE8A0',
-          200: '#FDDEA0',
-        },
+       // tailwind.config.js — fix this
+       cream: {
+       50:  '#FFF4DC',   // lightest parchment
+       100: '#FFF0C8',   // ← change from #FEE8A0 to this (subtle warm step down)
+       200: '#FDDEA0',
+       },
         navy: {
           900: '#060F1E',  // darkest — Projects + Footer
           800: '#0D2545',  // dark    — About + Contact
